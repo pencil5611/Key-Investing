@@ -52,7 +52,6 @@ def show_insights():
             for ticker in tickers:
                 info = yf.Ticker(ticker).info
                 info_dict[ticker] = filter_info(info, keys_to_keep)
-            st.write(info_dict)
             tickers_data = yf.download(tickers=tickers, period='1d', interval='1m', auto_adjust=True)['Close'].iloc[-1]
             df['current_price'] = df['ticker_symbol'].map(tickers_data)
             df['total_value'] = df['share_count'].astype(float) * df['current_price'].astype(float)
