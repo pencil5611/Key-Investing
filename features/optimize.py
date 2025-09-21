@@ -4,7 +4,7 @@ import pandas as pd
 from fredapi import Fred
 import yfinance as yf
 import plotly.express as px
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from scipy.optimize import minimize
 import ssl
 import certifi
@@ -127,8 +127,9 @@ def portfolio_page():
             st.write(f"Current Portfolio Name: {st.session_state.port_name}")
 
         today = datetime.now()
+        one_month_ago = today - timedelta(days=31)
         min_date = date(today.year - 20, today.month, today.day)
-        start_date = st.date_input("Start Date", min_value=min_date, max_value=today)
+        start_date = st.date_input("Start Date", min_value=min_date, max_value=one_month_ago)
 
         if st.button("Run Portfolio Optimization"):
             if not st.session_state.tickers:
