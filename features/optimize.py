@@ -129,7 +129,7 @@ def portfolio_page():
         today = datetime.now()
         one_month_ago = today - timedelta(days=31)
         min_date = date(today.year - 20, today.month, today.day)
-        start_date = st.date_input("Start Date", min_value=min_date, max_value=one_month_ago)
+        start_date = st.date_input("Start Date (Minimum One Month Ago)", min_value=min_date, max_value=one_month_ago)
 
         if st.button("Run Portfolio Optimization"):
             if not st.session_state.tickers:
