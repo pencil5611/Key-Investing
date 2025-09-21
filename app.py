@@ -67,27 +67,7 @@ def main_app():
                                                 'Portfolio Optimization'])
 
     if page == 'Home':
-        st.title("🔑 Key Investments")
-        col1, col2 = st.columns([3, 1])
-        with col1:
-            manage = st.button('Portfolio Management')
-            st.divider()
-            research = st.button('Research and Watchlist')
-            st.divider()
-        with col2:
-            insight = st.button('Portfolio Insight')
-            st.divider()
-            optimize = st.button('Portfolio Optimization')
-            st.divider()
-        if manage:
-            page = 'Portfolio Management'
-        if research:
-            page = 'Research and Watchlist'
-        if insight:
-            page = 'Portfolio Insight'
-        if optimize:
-            page = 'Portfolio Optimization'
-
+        show_home()
 
     if page == 'Portfolio Management':
         show_port_manager()
