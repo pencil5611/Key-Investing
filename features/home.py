@@ -1,82 +1,105 @@
 import streamlit as st
 
 def show_home():
-    # Title / Hero
-    st.title("🔑 Key Investments")
-    st.markdown("### *Smarter Portfolio Management, Made Simple*")
+    st.title("Key Investing Streamlit App")
 
-    if 'user_email' in st.session_state:
-        st.markdown(f"**Welcome back, {st.session_state.user_email}!**")
-
-    st.markdown("---")
-
-    # Overview
-    st.header("📊 What is Key Investments?")
     st.markdown("""
-    **Key Investments** is a portfolio management app that helps you organize your holdings, 
-    track performance, and make data-driven investment decisions.  
-    Whether you’re a new investor or an experienced trader, the app brings together 
-    research, risk analysis, and optimization tools in one place.
+    Key Investing is a Streamlit-based web application for individual investors to manage portfolios, conduct stock research, and perform portfolio optimization and risk analysis. The app integrates real-time market data, AI-driven insights, and a Supabase backend for secure user management and data storage.
     """)
 
-    # Features
-    st.markdown("---")
-    st.header("✨ Features")
+    st.header("Features")
 
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("""
-        **📈 Portfolio Management**
-        - Add or remove stocks
-        - Portfolio overview with allocation by sector
-        - Compare performance against the S&P 500 (SPY)
-
-        **💼 Transaction History**
-        - Record and view trades
-        - Filter by ticker, date, or buy/sell
-        - Keep a detailed log of activity
-        """)
-
-    with col2:
-        st.markdown("""
-        **⚠️ Risk Engine**
-        - Historical Value at Risk (VaR)
-        - Monte Carlo simulation
-        - Assess volatility and downside risk
-
-        **👀 Research & Watchlist**
-        - News articles and AI-powered stock analysis
-        - Build a personal watchlist
-        - Track six months of price history for your tickers
-        """)
-
-    # Optimization
-    st.markdown("---")
-    st.header("🚀 Portfolio Optimization")
+    st.subheader("1. Portfolio Management")
     st.markdown("""
-    Use statistical methods to design your **optimal portfolio**:  
-    - Choose your tickers  
-    - Set max weights per stock  
-    - Select a time range  
-    The app finds the most efficient mix to balance growth and risk.
+    - Add, remove, and track shares of stocks.
+    - Log all transactions with details such as date, ticker, shares, price per share, total value, and notes.
+    - Manage cash assets.
+    - Visualize current portfolio holdings with up-to-date prices.
+    - Compare portfolio performance against the S&P 500 over multiple time frames.
+    - Sector allocation breakdown via interactive pie charts.
     """)
 
-    # Tech Stack (short + polished)
-    st.markdown("---")
-    st.header("🛠️ Built With")
+    st.subheader("2. Transaction History")
     st.markdown("""
-    - **Python + Streamlit** for the interactive web app  
-    - **Supabase** for secure data storage and authentication  
-    - **Yahoo Finance API** for live market data  
-    - **Plotly** for clear financial visualizations  
+    - View all past transactions in a tabular format.
+    - Filter transactions by date, type (buy/sell), or ticker.
+    - Delete individual transactions.
     """)
 
-    # Footer
-    st.markdown("---")
-    st.markdown(
-        "<div style='text-align: center; color: gray; margin-top: 2rem;'>"
-        "<p>Key Investments – Built for investors, built with Python.</p>"
-        "</div>",
-        unsafe_allow_html=True
-    )
+    st.subheader("3. Research and Watchlist")
+    st.markdown("""
+    - Fetch real-time stock data including price, volume, 52-week high/low, market cap, PE ratio, EPS, beta, and analyst target prices.
+    - Maintain a personal watchlist with notes.
+    - Track historical price changes over 1, 3, and 6 months.
+    - View company news sourced from Finnhub.
+    - AI-driven analysis of financial metrics using Groq API for investment insights.
+    """)
+
+    st.subheader("4. Portfolio Risk Analysis")
+    st.markdown("""
+    - Historical Value at Risk (VaR) calculation over customizable periods and confidence levels.
+    - Visualize portfolio return distributions and risk metrics.
+    """)
+
+    st.subheader("5. Portfolio Optimization")
+    st.markdown("""
+    - Advanced optimization tools to help identify efficient portfolio allocations.
+    - Integration with historical returns and risk metrics.
+    """)
+
+    st.subheader("6. User Authentication")
+    st.markdown("""
+    - Sign up, log in, and log out with secure credentials using Supabase Auth.
+    - Persist user sessions and synchronize data with Supabase database.
+    """)
+
+    st.header("Data Sources")
+    st.markdown("""
+    - **Yahoo Finance (yfinance)**: Real-time and historical stock prices.
+    - **Finnhub API**: Company news and sentiment data.
+    - **Supabase**: Backend database for user information, portfolios, transactions, and watchlists.
+    - **Groq API**: AI-powered financial analysis.
+    """)
+
+    st.header("Architecture")
+    st.markdown("""
+    - **Frontend**: Streamlit for interactive dashboards and UI.
+    - **Backend**: Supabase for authentication and data storage.
+    - **Data Processing**: Pandas, NumPy, and yfinance for stock calculations.
+    - **Visualization**: Plotly for charts and portfolio performance graphs.
+    - **AI Integration**: Groq API for detailed stock analysis.
+    """)
+
+    st.header("Usage Overview")
+    st.markdown("""
+    1. **Authentication**: Users register or log in via the app. Session data is maintained for portfolio and watchlist management.
+    2. **Portfolio Management**: Add or remove stocks, update cash holdings, and track performance against S&P 500.
+    3. **Research**: Fetch real-time metrics, explore news, and generate AI-driven analyses for selected tickers.
+    4. **Watchlist**: Add tickers to watchlist, monitor recent price changes, and track notes.
+    5. **Portfolio Risk Analysis**: Evaluate historical VaR and visualize risk distribution.
+    6. **Portfolio Optimization**: Access optimization tools for better portfolio allocation.
+    """)
+
+    st.header("Key Components")
+    st.markdown("""
+    - **app.py**: Entry point with authentication, navigation, and page routing.
+    - **portfolio_management.py**: Handles portfolio tracking, transactions, and performance metrics.
+    - **research.py**: Provides stock research, watchlist management, news, and AI analysis.
+    - **optimize.py**: Implements portfolio optimization tools.
+    - **portfolio_insight.py**: Displays advanced insights and analytics (if included).
+    """)
+
+    st.header("Notes")
+    st.markdown("""
+    - All monetary values are displayed in USD.
+    - AI analysis strictly uses provided data; no external assumptions are included.
+    - Portfolio calculations use adjusted closing prices for accuracy.
+    - App is optimized for Streamlit Cloud deployment.
+    """)
+
+    st.header("Security & Privacy")
+    st.markdown("""
+    - User credentials and session data are securely managed via Supabase.
+    - Financial data is retrieved in real-time from trusted APIs and stored only for authenticated users.
+    """)
+
