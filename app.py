@@ -96,7 +96,7 @@ def auth_screen():
     if option == 'Sign Up' and st.button('Register'):
         user = sign_up(email, password)
         if user and user.user:
-            st.success('Registration successful. Please check your email for verification. Once your email is verified you may log in.')
+            st.success('Registration successful. You may log in.')
 
 
     if option == 'Login' and st.button('Login'):
