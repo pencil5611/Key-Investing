@@ -231,7 +231,7 @@ def show_port_manager():
 
             if all(col in df.columns for col in ['ticker_symbol', 'share_count']):
                 tickers = df['ticker_symbol'].tolist()
-                tickers_data = yf.download(tickers=tickers, period='1d', interval='1m', auto_adjust=True, progress=False)['Close'].iloc[
+                tickers_data = yf.download(tickers=tickers, period='5d', interval='1m', auto_adjust=True, progress=False)['Close'].iloc[
                     -1]
                 df['current_price'] = df['ticker_symbol'].map(tickers_data)
                 for index, row in df.iterrows():
