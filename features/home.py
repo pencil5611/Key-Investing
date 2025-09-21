@@ -80,15 +80,6 @@ def show_home():
     6. **Portfolio Optimization**: Access optimization tools for better portfolio allocation.
     """)
 
-    st.header("🧩 Key Components")
-    st.markdown("""
-    - **app.py**: Entry point with authentication, navigation, and page routing.
-    - **portfolio_management.py**: Handles portfolio tracking, transactions, and performance metrics.
-    - **research.py**: Provides stock research, watchlist management, news, and AI analysis.
-    - **optimize.py**: Implements portfolio optimization tools.
-    - **portfolio_insight.py**: Displays advanced insights and analytics (if included).
-    """)
-
     st.header("💡 Notes")
     st.markdown("""
     - All monetary values are displayed in USD.
