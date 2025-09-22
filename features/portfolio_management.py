@@ -231,9 +231,9 @@ def show_port_manager():
 
             if all(col in df.columns for col in ['ticker_symbol', 'share_count']):
                 tickers = df['ticker_symbol'].tolist()
-                tickers_data = yf.download(tickers=tickers, period='5d', interval='1m', auto_adjust=True, progress=False)['Close'].iloc[
-                    -1]
-                df['current_price'] = df['ticker_symbol'].map(tickers_data)
+                tickers_data = yf.download(tickers=tickers, period='5d', interval='1m', auto_adjust=True, progress=False)['Close'].ffill().bfill()
+                latest_prices = tickers_data.iloc[-1]
+                df['current_price'] = df['ticker_symbol'].map(latest_prices)
                 for index, row in df.iterrows():
                     if pd.isna(row['current_price']):
                         retry_price = retry_if_fail(row['ticker_symbol'], start_date=datetime.now() - timedelta(days=1), end_date=datetime.now())
