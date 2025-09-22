@@ -1,6 +1,5 @@
 import streamlit as st
 from supabase import create_client, Client
-from features.home import show_home
 from features.portfolio_management import show_port_manager
 from features.stock_research import show_research_watchlist_page
 from features.portfolio_insight import show_insights
@@ -60,14 +59,10 @@ def sign_out():
 
 
 def main_app():
-    page = st.sidebar.selectbox('Select Page', ['Home',
-                                                'Portfolio Management',
+    page = st.sidebar.selectbox('Select Page', [ 'Portfolio Management',
                                                 'Research and Watchlist',
                                                 'Portfolio Insight',
                                                 'Portfolio Optimization'])
-
-    if page == 'Home':
-        show_home()
 
     if page == 'Portfolio Management':
         show_port_manager()
