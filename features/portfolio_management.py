@@ -484,6 +484,7 @@ def show_port_manager():
             latest_prices = yf.download(tickers=tickers, period='5d', interval='1d', auto_adjust=True, progress=False)['Close'].iloc[-1]
             failures = latest_prices[latest_prices.isna()].index.tolist()
             for ticker in failures:
+                st.write('Failure')
                 retry_price = retry_if_fail(ticker, start_date=datetime.now() - timedelta(days=10), end_date=datetime.now())
                 latest_prices[ticker] = retry_price.iloc[-1] if not retry_price.empty else np.nan
 
