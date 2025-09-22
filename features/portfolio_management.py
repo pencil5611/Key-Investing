@@ -225,7 +225,7 @@ def show_port_manager():
             rows = response.data
 
             if not rows:
-                st.error('Portfolio not found.')
+                st.info('Portfolio not found.')
 
             df = pd.DataFrame(rows)
 
