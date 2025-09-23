@@ -302,7 +302,7 @@ def show_port_manager():
                     shares = df.set_index('Ticker')['Shares'].to_dict()
                     start_date = datetime.today() - timedelta(days=days)
 
-                    portfolio_prices = yf.download(tickers, start=start_date, auto_adjust=True, progress=False)['Close']
+                    portfolio_prices = yf.download(tickers, start=start_date, auto_adjust=True, progress=False)['Close'].ffill().bfill()
 
                     if isinstance(portfolio_prices, pd.Series):
                         portfolio_prices = portfolio_prices.to_frame()
@@ -481,7 +481,7 @@ def show_port_manager():
             tickers = df['ticker_symbol'].tolist()
             shares_dict = df.set_index('ticker_symbol')['share_count'].astype(float).to_dict()
 
-            latest_prices = yf.download(tickers=tickers, period='5d', interval='5m', auto_adjust=True, progress=False)['Close'].iloc[-1]
+            latest_prices = yf.download(tickers=tickers, period='5d', interval='5m', auto_adjust=True, progress=False)['Close'].ffill().bfill().iloc[-1]
             failures = latest_prices[latest_prices.isna()].index.tolist()
             for ticker in failures:
                 retry_price = retry_if_fail(ticker, start_date=datetime.now() - timedelta(days=10), end_date=datetime.now())

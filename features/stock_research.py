@@ -162,12 +162,12 @@ def show_research_watchlist_page():
             col1, col2 = st.columns(2)
 
             with col1:
-                if st.button(f'{stored_ticker} News'):
+                if st.button(f'{stored_ticker} News') and yf.Ticker(stored_ticker).info.get('regularMarketPrice'):
                     st.session_state.show_news = True
                     st.session_state.show_ai = False
 
             with col2:
-                if st.button(f'{stored_ticker} AI Overview'):
+                if st.button(f'{stored_ticker} AI Overview') and yf.Ticker(stored_ticker).info.get('regularMarketPrice'):
                     st.session_state.show_ai = True
                     st.session_state.show_news = False
 
