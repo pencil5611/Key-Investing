@@ -86,7 +86,6 @@ def show_research_watchlist_page():
             hist = yf_ticker.history(period="7d")
             if hist.empty:
                 st.warning(f'Could not fetch price data for specified ticker')
-                st.stop()
             else:
                 st.session_state.ticker_prices_df = hist[['Close']].copy()
 
