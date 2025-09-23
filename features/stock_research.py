@@ -120,7 +120,7 @@ def show_research_watchlist_page():
                 metrics_formatted = {k: format_value(v) for k, v in metrics.items()}
                 st.session_state.metrics_df = pd.DataFrame([metrics_formatted])
 
-        if 'ticker' in st.session_state:
+        if 'ticker' in st.session_state and yf.Ticker(st.session_state['ticker']).info.get('regularMarketPrice'):
             time_options = {
                 "1 Month": 30,
                 "3 Months": 90,
