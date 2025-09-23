@@ -85,7 +85,7 @@ def show_research_watchlist_page():
             yf_ticker = yf.Ticker(ticker)
             hist = yf_ticker.history(period="7d")
             if hist.empty:
-                st.error(f'Could not fetch price data for "{ticker}"')
+                st.warning(f'Could not fetch price data for specified ticker')
                 st.stop()
             else:
                 st.session_state.ticker_prices_df = hist[['Close']].copy()
@@ -199,7 +199,7 @@ def show_research_watchlist_page():
                                     st.markdown(article['summary'])
                                     st.divider()
                 except Exception as e:
-                    st.error(e)
+                    st.warning(e)
 
             if st.session_state.show_ai:
                 try:
@@ -254,9 +254,9 @@ def show_research_watchlist_page():
                             st.subheader('**🤖 AI Analysis**')
                             st.write(analysis)
                         except Exception as e:
-                            st.error(f"AI request failed: {e}")
+                            st.warning(f"AI request failed: {e}")
                 except Exception as e:
-                    st.error(f"AI request failed: {e}")
+                    st.warning(f"AI request failed: {e}")
 
 
     def show_watchlist():
