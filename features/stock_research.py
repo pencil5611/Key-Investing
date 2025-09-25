@@ -217,7 +217,7 @@ def show_research_watchlist_page():
     
                         Provide a professional IN DETAIL investment analysis covering company overview, financial health, valuation, and outlook. Separate numbers from text except for when required, like a comma.
                          ONLY USE THE GIVEN INFORMATION IN YOUR ANALYSIS.
-                         DO NOT use the '$' symbol in your analysis.
+                         DO NOT use the $ symbol in your analysis EVER. use the word "dollars" instead IF NEEDED. 
                          Clearly format your analysis so that the user can easily read it. (Bullet points are acceptable)
                          NEVER MAKE UP INFORMATION.
                          Abbreviate large numbers when necessary (e.g. 1,500,000 as 1.5M or 1.5 million).
