@@ -441,7 +441,7 @@ def show_port_manager():
                 txn_to_delete = st.selectbox(
                     "Select a transaction to delete:",
                     options=df.apply(lambda
-                                         row: f"ID {row['id']} | {row['Date'].date()} | {row['Type']} {row['Ticker']} | ${row['Total Value']}",
+                                         row: f"ID {row['id']} | {row['Date'].date()} | {row['Type']} {row['Ticker']} | ${row['Total Value']:.2f}",
                                      axis=1),
                 )
 
