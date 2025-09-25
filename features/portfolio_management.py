@@ -365,7 +365,7 @@ def show_port_manager():
 
 
         except Exception as e:
-            st.error(f'Failed to display Portfolio. Error: {e}')
+            st.warning(f'Failed to display Portfolio. Check your internet connection and try again. Error: {e}')
 
     def transaction_history_tab():
         stored_id = st.session_state.get("user_id")
