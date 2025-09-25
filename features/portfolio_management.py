@@ -279,7 +279,7 @@ def show_port_manager():
                         f'${stock_port_value:,.2f}',
                         f'${port_value:,.2f}',
                         f'${port_change:,.2f}',
-                        f'${port_pct_change:,.2f}'
+                        f'{port_pct_change:,.2f}%'
                     ]})
 
                 st.dataframe(port_summary, hide_index=True)
