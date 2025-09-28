@@ -71,29 +71,28 @@ def show_insights():
                 'day_change': 'Day Change Per Share ($)',
                 'total_change': 'Total Day Change ($)',
             })
-            cash = supabase.table('user_cash').select('cash_amount').eq('user_id', stored_id).execute()
+            cash_response = supabase.table('user_cash').select('cash_amount').eq('user_id', stored_id).execute()
+            current_cash = cash_response.data[0]['cash_amount'] if cash_response.data else 0
+            top_holdings = df.nlargest(3, 'Total Value ($)')
+            highest_values_str = ', '.join(
+                f"{row['Ticker']}: {row['Total Value ($)']:,.2f}" for _, row in top_holdings.iterrows())
             port_value = df['Total Value ($)'].sum()
             port_day_change = df['Total Day Change ($)'].sum()
-            if cash.data:
-                cash_amount = cash.data[0]['cash_amount']
-                Portfolio_Data = f'Total Portfolio Value: {port_value:,.2f} dollars\nTotal Daily Change: {port_day_change:,.2f} dollars\nCash Amount: {cash_amount:,.2f} dollars\n'
-            else:
-                Portfolio_Data = f'Total Portfolio Value: {port_value:,.2f} dollars\nTotal Daily Change: {port_day_change:,.2f} dollars\n'
+            Portfolio_Data = f'''
+            Total STOCK Value (excludes cash): {port_value:,.2f} dollars\n
+            Total PORTFOLIO VALUE (includes cash): {port_value + current_cash:,.2f} dollars\n
+            Total Daily Change: {port_day_change:,.2f} dollars\n
+            Current Cash: {current_cash:,.2f} dollars\n
+            Top 3 Holdings by Value: {highest_values_str} dollars\n'''
 
             system_content = f"""
-            You are a financial AI assistant. Analyze the following stock portfolio in a thorough and structured manner. The portfolio data is provided entirely as a string, not as an object.
+            You are a financial AI assistant. YOU NEVER USE THE $ SYMBOL. Analyze the following stock portfolio in a thorough and structured manner. The portfolio data is provided entirely as a string, not as an object.
 
-            Portfolio data:
-            \"\"\"
-            {Portfolio_Data}
-            \"\"\"
 
-            Individual Stock Data from yfinance:
-            {info_dict}
 
             Please produce a portfolio analysis that is **always in the exact same format**, following these steps precisely:
 
-            1. **Overall Portfolio Performance**: Provide total gain/loss and percentage change since initial investment. Reference total portfolio value in dollars.  
+            1. **Overall Portfolio Performance**: Provide total gain/loss and percentage change since initial investment. Reference total portfolio value in dollars (including cash).  
             2. **Risk Assessment**: Discuss diversification, sector concentration, and overall portfolio volatility. Mention any single-stock concentration risks.  
             3. **Key Holdings**: List the top 3 holdings by portfolio weight and explain their impact on overall performance.  
             4. **Suggestions for Improvement**: Give 2-3 concrete recommendations for rebalancing or risk reduction.  
@@ -103,10 +102,21 @@ def show_insights():
             **Formatting Rules**:  
             - Always use the same structure as outlined above.  
             - Do not EVER use the $ symbol; write out 'dollars' (if necessary). Using the $ symbol will result in COMPLETE FAILURE.  
-            - Keep variable names {Portfolio_Data} and {info_dict} intact.  
-            - Responses must be easy to read and concise while including sufficient detail for decision-making.  
+            - Format paragraphs/large sentences spaced apart when necessary for clarity/readability.  
+            - Responses must be easy to read and concise while including sufficient detail for decision-making.
+            - Refer to the data provided; do not make up numbers or facts.
+            - NEVER EVER do your own math. ONLY REFER TO THE PROVIDED DATA. Failure to do so results in COMPLETE FAILURE.
 
             Return the analysis as a single well-structured paragraph for sections 1-5, followed by the bullet-point summary exactly as described.
+            
+            Portfolio data:
+            \"\"\"
+            {Portfolio_Data}
+            \"\"\"
+            
+            Individual Stock Data from yfinance:
+            {info_dict}
+            
             """
 
             try:
