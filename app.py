@@ -2,7 +2,6 @@ import streamlit as st
 from supabase import create_client, Client
 from features.portfolio_management import show_port_manager
 from features.stock_research import show_research_watchlist_page
-from features.portfolio_insight import show_insights
 from features.optimize import portfolio_page
 supabase_url = st.secrets["SUPABASE_URL"]
 supabase_key = st.secrets["SUPABASE_KEY"]
@@ -61,7 +60,6 @@ def sign_out():
 def main_app():
     page = st.sidebar.selectbox('Select Page', [ 'Portfolio Management',
                                                 'Research and Watchlist',
-                                                'Portfolio Insight',
                                                 'Portfolio Optimization'])
 
     if page == 'Portfolio Management':
@@ -70,8 +68,6 @@ def main_app():
     if page == 'Research and Watchlist':
         show_research_watchlist_page()
 
-    if page == 'Portfolio Insight':
-        show_insights()
 
     if page == 'Portfolio Optimization':
         portfolio_page()
