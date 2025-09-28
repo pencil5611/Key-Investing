@@ -71,11 +71,18 @@ def show_insights():
                 'day_change': 'Day Change Per Share ($)',
                 'total_change': 'Total Day Change ($)',
             })
+            cash = supabase.table('user_cash').select('cash_amount').eq('user_id', stored_id).execute()
+            port_value = df['Total Value ($)'].sum()
+            port_day_change = df['Total Day Change ($)'].sum()
+            if cash.data:
+                cash_amount = cash.data[0]['cash_amount']
+                Portfolio_Data = f'Total Portfolio Value: {port_value:,.2f} dollars\nTotal Daily Change: {port_day_change:,.2f} dollars\nCash Amount: {cash_amount:,.2f} dollars\n'
+            else:
+                Portfolio_Data = f'Total Portfolio Value: {port_value:,.2f} dollars\nTotal Daily Change: {port_day_change:,.2f} dollars\n'
 
 
 
 
-            df_str = df.to_json(orient="records")
 
 
             system_content = f"""
@@ -83,7 +90,7 @@ def show_insights():
 
             Portfolio data:
             \"\"\"
-            {df_str}
+            {Portfolio_Data}
             \"\"\"
             
             Individual Stock Data from yfinance:
