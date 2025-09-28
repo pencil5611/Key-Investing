@@ -80,32 +80,33 @@ def show_insights():
             else:
                 Portfolio_Data = f'Total Portfolio Value: {port_value:,.2f} dollars\nTotal Daily Change: {port_day_change:,.2f} dollars\n'
 
-
-
-
-
-
             system_content = f"""
-            You are a financial AI assistant. Analyze the following stock portfolio. The portfolio data is provided entirely as a string, not as an object.
+            You are a financial AI assistant. Analyze the following stock portfolio in a thorough and structured manner. The portfolio data is provided entirely as a string, not as an object.
 
             Portfolio data:
             \"\"\"
             {Portfolio_Data}
             \"\"\"
-            
+
             Individual Stock Data from yfinance:
             {info_dict}
 
-            Please provide:
-            1. Overall portfolio performance and total gain/loss.
-            2. Risk assessment (diversification, sector concentration, volatility).
-            3. Key holdings and their impact on performance.
-            4. Suggestions for improvement or rebalancing.
-            5. Any notable trends or observations.
-            6. Summarize in 3-5 bullet points, new-line separated.
+            Please produce a portfolio analysis that is **always in the exact same format**, following these steps precisely:
 
-            Return your answer as a well-structured paragraph that is easy for users to read.
-            DO NOT use the '$' Symbol in your response. Instead, use the word 'dollars'.
+            1. **Overall Portfolio Performance**: Provide total gain/loss and percentage change since initial investment. Reference total portfolio value in dollars.  
+            2. **Risk Assessment**: Discuss diversification, sector concentration, and overall portfolio volatility. Mention any single-stock concentration risks.  
+            3. **Key Holdings**: List the top 3 holdings by portfolio weight and explain their impact on overall performance.  
+            4. **Suggestions for Improvement**: Give 2-3 concrete recommendations for rebalancing or risk reduction.  
+            5. **Trends or Observations**: Note any interesting patterns in recent performance, sector trends, or volatility spikes.  
+            6. **Summary**: Provide 3-5 bullet points summarizing the analysis. Each bullet should be on its own line.  
+
+            **Formatting Rules**:  
+            - Always use the same structure as outlined above.  
+            - Do not EVER use the $ symbol; write out 'dollars' (if necessary). Using the $ symbol will result in COMPLETE FAILURE.  
+            - Keep variable names {Portfolio_Data} and {info_dict} intact.  
+            - Responses must be easy to read and concise while including sufficient detail for decision-making.  
+
+            Return the analysis as a single well-structured paragraph for sections 1-5, followed by the bullet-point summary exactly as described.
             """
 
             try:
