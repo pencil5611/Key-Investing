@@ -16,7 +16,7 @@ def show_insights():
     if not stored_id:
         st.error("No user ID found. Please log in again.")
         return
-    st.title('Insights into your Portfolio')
+    st.title('AI Portfolio Analysis')
     try:
         response = supabase.table('user_portfolio').select('ticker_symbol', 'share_count').eq('user_id',stored_id).execute()
         rows = response.data

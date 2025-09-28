@@ -15,7 +15,7 @@ supabase: Client = create_client(supabase_url, supabase_key)
 
 
 def show_port_manager():
-    tab1, tab2, tab3, tab4 = st.tabs(["Portfolio Management", "Transaction History", 'Portfolio Risk Analysis', 'Portfolio Insights'])
+    tab1, tab2, tab3, tab4 = st.tabs(["Portfolio Management", "Transaction History", 'Portfolio Risk Analysis', 'AI Analysis'])
 
     def retry_if_fail(ticker, start_date=None, end_date=None, max_retries=10, sleep_sec=0.5):
         for attempt in range(max_retries):
