@@ -67,7 +67,6 @@ def main_app():
         with content:
             show_port_manager()
 
-
     if page == 'Research and Watchlist':
         with content:
             show_research_watchlist_page()
