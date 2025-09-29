@@ -106,6 +106,7 @@ def show_insights():
             - Responses must be easy to read and concise while including sufficient detail for decision-making.
             - Refer to the data provided; do not make up numbers or facts.
             - NEVER EVER do your own math. ONLY REFER TO THE PROVIDED DATA. Failure to do so results in COMPLETE FAILURE.
+            - Do NOT mention that you "don't have access" to certain kinds of data. Simply don't reference areas that require more data than provided.
 
             Return the analysis as a single well-structured paragraph for sections 1-5, followed by the bullet-point summary exactly as described.
             
