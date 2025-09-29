@@ -61,16 +61,20 @@ def main_app():
     page = st.sidebar.selectbox('Select Page', [ 'Portfolio Management',
                                                 'Research and Watchlist',
                                                 'Portfolio Optimization'])
+    content = st.empty()
 
     if page == 'Portfolio Management':
-        show_port_manager()
+        with content:
+            show_port_manager()
 
     if page == 'Research and Watchlist':
-        show_research_watchlist_page()
+        with content:
+            show_research_watchlist_page()
 
 
     if page == 'Portfolio Optimization':
-        portfolio_page()
+        with content:
+            portfolio_page()
 
     st.divider()
 
