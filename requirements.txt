@@ -11,3 +11,5 @@ requests~=2.32.4
 groq~=0.31.0
 matplotlib~=3.10.3
 python-dotenv~=1.1.1
+
+
