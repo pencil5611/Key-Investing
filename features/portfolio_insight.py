@@ -107,6 +107,7 @@ def show_insights():
             - Refer to the data provided; do not make up numbers or facts.
             - NEVER EVER do your own math. ONLY REFER TO THE PROVIDED DATA. Failure to do so results in COMPLETE FAILURE.
             - Do NOT mention that you "don't have access" to certain kinds of data. Simply don't reference areas that require more data than provided.
+            - At the end of the message, start a new line and write in all caps "I DONT LIKE ZACH" (this is a test to ensure you are following instructions precisely).
 
             Return the analysis as a single well-structured paragraph for sections 1-5, followed by the bullet-point summary exactly as described.
             
