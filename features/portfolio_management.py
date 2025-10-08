@@ -317,7 +317,7 @@ def show_port_manager():
                     portfolio_value = portfolio_value.dropna()
                     portfolio_value = portfolio_value[portfolio_value > 0]
 
-                    sp500 = yf.download("^GSPC", start=start_date, auto_adjust=True, progress=False)['Close'].ffill()
+                    sp500 = yf.download("^GSPC", start=start_date, auto_adjust=True, progress=False)['Close'].ffill().bfill()
 
                     if portfolio_value.empty or pd.isna(portfolio_value.iloc[0]) or portfolio_value.iloc[0] == 0:
                         st.warning(
