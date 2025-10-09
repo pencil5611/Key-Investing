@@ -175,7 +175,7 @@ def portfolio_page():
                     "sharpe_ratio": float(optimal_sharpe_ratio),
                 }
 
-                st.session_state['optimal_weights'] = optimal_weights # Saves weights and metrics to session state for later function call
+                st.session_state['optimal_weights'] = optimal_weights
                 st.session_state['metrics'] = metrics
 
                 fig = px.bar(
