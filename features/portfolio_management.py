@@ -515,11 +515,12 @@ def show_port_manager():
             confidence = st.slider('Confidence', min_value=70.0, max_value=99.99, value=95.0, step=0.1)
 
             range_returns = portfolio_returns.rolling(window=days).sum().dropna()
-            VaR = -np.percentile(range_returns, 100 - confidence) * portfolio_value
+            range_returns_pct = np.exp(range_returns) - 1
+            range_returns_dollar = range_returns_pct * portfolio_value
+            VaR = -np.percentile(range_returns_dollar, 100 - confidence)
 
             st.metric(label=f"{days}-Day Historical VaR at {confidence}% Confidence", value=f"${VaR:,.2f}")
 
-            range_returns_dollar = range_returns * portfolio_value
             fig = go.Figure()
             fig.add_trace(go.Histogram(
                 x=range_returns_dollar,
