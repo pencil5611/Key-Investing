@@ -529,7 +529,7 @@ def show_port_manager():
                 opacity=0.75
             ))
             fig.add_vline(
-                x=-VaR,
+                x=-float(VaR),
                 line=dict(color='red', width=2, dash='dash'),
                 annotation_text=f"VaR: ${VaR:,.2f}",
                 annotation_position="top right"
