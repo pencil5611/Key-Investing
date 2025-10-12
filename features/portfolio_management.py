@@ -528,6 +528,7 @@ def show_port_manager():
                 name='Portfolio Returns',
                 opacity=0.75
             ))
+
             fig.add_vline(
                 x=-float(VaR),
                 line=dict(color='red', width=2, dash='dash'),
