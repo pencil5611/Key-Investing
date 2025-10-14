@@ -36,7 +36,7 @@ def sign_in(email, password):
         if user and user.user:
             st.session_state.user_email = user.user.email
             st.session_state.user_id = user.user.id
-            # Add to URL to persist
+
             st.query_params.u = user.user.email
             st.query_params.d = user.user.id
             st.success(f'Welcome back, {email}')
