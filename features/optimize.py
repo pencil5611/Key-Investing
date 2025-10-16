@@ -114,8 +114,14 @@ def portfolio_page():
             save_name = st.form_submit_button('Save Name')
             if save_name:
                 if port_name:
-                    st.session_state.port_name = port_name
-                    st.success(f"Portfolio name set to {port_name}")
+                    response = supabase.table('saved_optimized_ports').select('*').eq('port_name', port_name).eq(
+                        'user_id', stored_id).execute()
+                    rows = response.data
+                    if rows:
+                        st.warning('You already have a portfolio saved with this name.')
+                    else:
+                        st.session_state.port_name = port_name
+                        st.success(f"Portfolio name set to {port_name}")
                 else:
                     st.warning('Please enter a name for your portfolio.')
 
