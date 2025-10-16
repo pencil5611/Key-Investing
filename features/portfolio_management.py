@@ -490,9 +490,8 @@ def show_port_manager():
 
             portfolio_value = sum(latest_prices[t] * shares_dict[t] for t in tickers)
 
-            years = 10
             end_date = datetime.now()
-            start_date = end_date - timedelta(days=years * 365)
+            start_date = end_date - timedelta(days=10 * 365)
             close_df = pd.DataFrame()
             data = yf.download(tickers, start=start_date, end=end_date, auto_adjust=True, progress=False)
             close_df[tickers] = data['Close']
