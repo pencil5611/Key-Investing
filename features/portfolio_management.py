@@ -361,8 +361,8 @@ def show_port_manager():
 
                     sector_df = pd.DataFrame(list(sector_totals.items()), columns=['Sector', 'Value'])
                     if not sector_df.empty:
-                        fig = px.pie(sector_df, values='Value', names='Sector', title='Sector Allocation')
-                        st.plotly_chart(fig)
+                        fig2 = px.pie(sector_df, values='Value', names='Sector', title='Sector Allocation')
+                        st.plotly_chart(fig2)
 
 
         except Exception as e:
