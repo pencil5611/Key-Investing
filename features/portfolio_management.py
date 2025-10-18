@@ -12,7 +12,9 @@ from io import BytesIO
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
+import matplotlib.pyplot as plt
 from features.portfolio_insight import show_insights
+from reportlab.lib.units import inch
 supabase_url = st.secrets["SUPABASE_URL"]
 supabase_key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(supabase_url, supabase_key)
@@ -73,7 +75,7 @@ def show_port_manager():
             except Exception as e:
                 st.error(f"Failed to save cash assets: {e}")
 
-        def generate_portfolio_pdf(df, port_summary, fig=None, fig2=None):
+        def generate_portfolio_pdf(df, port_summary, comparison_df, sector_df):
             date = datetime.now().date()
             buffer = BytesIO()
             doc = SimpleDocTemplate(buffer)
@@ -105,6 +107,22 @@ def show_port_manager():
                 story.append(Paragraph("Portfolio Summary Metrics:", styles['Heading2']))
                 story.append(table)
                 story.append(Spacer(1, 12))
+
+            if comparison_df is not None and not comparison_df.empty:
+                plt.figure()
+                plt.plot(comparison_df['Date'], comparison_df['Portfolio'], label='Portfolio')
+                plt.plot(comparison_df['Date'], comparison_df["S&P 500"], label='S&P 500')
+                plt.xlabel('Date')
+                plt.ylabel('Value')
+                plt.title('Portfolio Performance vs S&P 500')
+                plt.legend()
+                image_buffer = BytesIO()
+                plt.savefig(image_buffer, format='png')
+                plt.close()
+                image_buffer.seek(0)
+                img = Image(image_buffer, width=5 * inch, height=3 * inch)
+                story.append(img)
+
             doc.build(story)
             buffer.seek(0)
             return buffer
@@ -407,7 +425,7 @@ def show_port_manager():
                 if 'fig' in locals() and 'fig2' in locals():
                     st.download_button(
                         label="Download Portfolio PDF",
-                        data=generate_portfolio_pdf(df, port_summary, fig, fig2),
+                        data=generate_portfolio_pdf(df, port_summary, comparison_df, fig2),
                         file_name="portfolio_summary.pdf",
                         mime="application/pdf"
                     )
