@@ -73,7 +73,7 @@ def show_port_manager():
             except Exception as e:
                 st.error(f"Failed to save cash assets: {e}")
 
-        def generate_portfolio_pdf(df, port_summary, fig, fig2):
+        def generate_portfolio_pdf(df, port_summary, fig=None, fig2=None):
             date = datetime.now().date()
             buffer = BytesIO()
             doc = SimpleDocTemplate(buffer)
@@ -93,6 +93,7 @@ def show_port_manager():
                 story.append(Paragraph("Portfolio Holdings:", styles['Heading2']))
                 story.append(table)
                 story.append(Spacer(0.5, 6))
+
             if port_summary is not None and not port_summary.empty:
                 data = [port_summary.columns.to_list()] + port_summary.values.tolist()
                 table = Table(data, hAlign='LEFT')
@@ -107,12 +108,17 @@ def show_port_manager():
 
             for idx, fig_obj in enumerate([fig, fig2], start=1):
                 if fig_obj is not None:
-                    img_bytes = fig_obj.to_image(format='png')
-                    img_buffer = BytesIO(img_bytes)
-                    img_buffer.seek(0)
-                    story.append(Paragraph(f"Figure {idx}:", styles['Heading2']))
-                    story.append(Image(img_buffer, width=400, height=300))
-                    story.append(Spacer(1, 12))
+                    try:
+                        img_bytes = fig_obj.to_image(format='png')
+                        img_buffer = BytesIO(img_bytes)
+                        img_buffer.seek(0)
+                        story.append(Paragraph(f"Figure {idx}:", styles['Heading2']))
+                        story.append(Image(img_buffer, width=400, height=300))
+                        story.append(Spacer(1, 12))
+                    except Exception:
+                        story.append(
+                            Paragraph(f"Figure {idx} could not be rendered on Streamlit Cloud.", styles['Heading2']))
+                        story.append(Spacer(1, 12))
             doc.build(story)
             buffer.seek(0)
             return buffer
