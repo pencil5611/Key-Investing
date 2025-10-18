@@ -8,6 +8,10 @@ import plotly.graph_objects as go
 from collections import defaultdict
 import numpy as np
 import time
+from io import BytesIO
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
 from features.portfolio_insight import show_insights
 supabase_url = st.secrets["SUPABASE_URL"]
 supabase_key = st.secrets["SUPABASE_KEY"]
@@ -68,6 +72,51 @@ def show_port_manager():
 
             except Exception as e:
                 st.error(f"Failed to save cash assets: {e}")
+
+        def generate_portfolio_pdf(df, port_summary, fig, fig2):
+            date = datetime.now().date()
+            buffer = BytesIO()
+            doc = SimpleDocTemplate(buffer)
+            story = []
+            styles = getSampleStyleSheet()
+            story.append(Paragraph(f"📊 Portfolio Summary: {date}", styles['Title']))
+            story.append(Spacer(1, 12))
+
+            if not df.empty:
+                df = df.round(2)
+                data = [df.columns.to_list()] + df.values.tolist()
+                table = Table(data, hAlign='LEFT')
+                table.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.gray),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ]))
+                story.append(Paragraph("Portfolio Holdings:", styles['Heading2']))
+                story.append(table)
+                story.append(Spacer(0.5, 6))
+
+            if not port_summary.empty:
+                data = [port_summary.columns.to_list()] + port_summary.values.tolist()
+                table = Table(data, hAlign='LEFT')
+                table.setStyle(TableStyle([
+                    ('BACKGROUND', (0, 0), (-1, 0), colors.darkblue),
+                    ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                    ('GRID', (0, 0), (-1, -1), 1, colors.black),
+                ]))
+                story.append(Paragraph("Portfolio Summary Metrics:", styles['Heading2']))
+                story.append(table)
+                story.append(Spacer(1, 12))
+            for idx, fig_obj in enumerate([fig, fig2], start=1):
+                if fig_obj is not None:
+                    img_buffer = BytesIO()
+                    fig_obj.write_image(img_buffer, format='png', engine='kaleido')
+                    img_buffer.seek(0)
+                    story.append(Paragraph(f"Figure {idx}:", styles['Heading2']))
+                    story.append(Image(img_buffer, width=400, height=300))
+                    story.append(Spacer(1, 12))
+            doc.build(story)
+            buffer.seek(0)
+            return buffer
 
 
         st.title('📊Portfolio Management📈')
@@ -361,8 +410,16 @@ def show_port_manager():
 
                     sector_df = pd.DataFrame(list(sector_totals.items()), columns=['Sector', 'Value'])
                     if not sector_df.empty:
-                        fig2 = px.pie(sector_df, values='Value', names='Sector', title='Sector Allocation')
+                        fig2 = px.pie(sector_df, values='Value', names='Sector', color='Sector', color_discrete_sequence=px.colors.qualitative.Plotly, title='Sector Allocation')
                         st.plotly_chart(fig2)
+
+                if 'fig' in locals() and 'fig2' in locals():
+                    st.download_button(
+                        label="Download Portfolio PDF",
+                        data=generate_portfolio_pdf(df, port_summary, fig, fig2),
+                        file_name="portfolio_summary.pdf",
+                        mime="application/pdf"
+                    )
 
 
         except Exception as e:
