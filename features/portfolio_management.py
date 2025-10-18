@@ -109,7 +109,7 @@ def show_port_manager():
             for idx, fig_obj in enumerate([fig, fig2], start=1):
                 if fig_obj is not None:
                     img_buffer = BytesIO()
-                    fig_obj.write_image(img_buffer, format='png', engine='kaleido')
+                    fig_obj.write_image(img_buffer, format='png')
                     img_buffer.seek(0)
                     story.append(Paragraph(f"Figure {idx}:", styles['Heading2']))
                     story.append(Image(img_buffer, width=400, height=300))
