@@ -105,20 +105,6 @@ def show_port_manager():
                 story.append(Paragraph("Portfolio Summary Metrics:", styles['Heading2']))
                 story.append(table)
                 story.append(Spacer(1, 12))
-
-            for idx, fig_obj in enumerate([fig, fig2], start=1):
-                if fig_obj is not None:
-                    try:
-                        img_bytes = fig_obj.to_image(format='png')
-                        img_buffer = BytesIO(img_bytes)
-                        img_buffer.seek(0)
-                        story.append(Paragraph(f"Figure {idx}:", styles['Heading2']))
-                        story.append(Image(img_buffer, width=400, height=300))
-                        story.append(Spacer(1, 12))
-                    except Exception:
-                        story.append(
-                            Paragraph(f"Figure {idx} could not be rendered on Streamlit Cloud.", styles['Heading2']))
-                        story.append(Spacer(1, 12))
             doc.build(story)
             buffer.seek(0)
             return buffer
