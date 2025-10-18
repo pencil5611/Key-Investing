@@ -12,4 +12,3 @@ groq~=0.31.0
 matplotlib~=3.10.3
 python-dotenv~=1.1.1
 reportlab~=4.4.4
-kaleido==1.1.0
