@@ -12,6 +12,8 @@ from io import BytesIO
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, Image
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from features.portfolio_insight import show_insights
 from reportlab.lib.units import inch
