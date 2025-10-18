@@ -424,7 +424,7 @@ def show_port_manager():
                         fig2 = px.pie(sector_df, values='Value', names='Sector', color='Sector', color_discrete_sequence=px.colors.qualitative.Plotly, title='Sector Allocation')
                         st.plotly_chart(fig2)
 
-                if 'fig' in locals() and 'fig2' in locals():
+                if 'comparison_df' in locals() and 'fig2' in locals():
                     st.download_button(
                         label="Download Portfolio PDF",
                         data=generate_portfolio_pdf(df, port_summary, comparison_df, fig2),
