@@ -81,10 +81,9 @@ def show_port_manager():
             styles = getSampleStyleSheet()
             story.append(Paragraph(f"📊 Portfolio Summary: {date}", styles['Title']))
             story.append(Spacer(1, 12))
-
-            if not df.empty:
-                df = df.round(2)
-                data = [df.columns.to_list()] + df.values.tolist()
+            if df is not None and not df.empty:
+                df_rounded = df.round(2)
+                data = [df_rounded.columns.to_list()] + df_rounded.values.tolist()
                 table = Table(data, hAlign='LEFT')
                 table.setStyle(TableStyle([
                     ('BACKGROUND', (0, 0), (-1, 0), colors.gray),
@@ -94,8 +93,7 @@ def show_port_manager():
                 story.append(Paragraph("Portfolio Holdings:", styles['Heading2']))
                 story.append(table)
                 story.append(Spacer(0.5, 6))
-
-            if not port_summary.empty:
+            if port_summary is not None and not port_summary.empty:
                 data = [port_summary.columns.to_list()] + port_summary.values.tolist()
                 table = Table(data, hAlign='LEFT')
                 table.setStyle(TableStyle([
@@ -106,10 +104,11 @@ def show_port_manager():
                 story.append(Paragraph("Portfolio Summary Metrics:", styles['Heading2']))
                 story.append(table)
                 story.append(Spacer(1, 12))
+
             for idx, fig_obj in enumerate([fig, fig2], start=1):
                 if fig_obj is not None:
-                    img_buffer = BytesIO()
-                    fig_obj.write_image(img_buffer, format='png')
+                    img_bytes = fig_obj.to_image(format='png')
+                    img_buffer = BytesIO(img_bytes)
                     img_buffer.seek(0)
                     story.append(Paragraph(f"Figure {idx}:", styles['Heading2']))
                     story.append(Image(img_buffer, width=400, height=300))
