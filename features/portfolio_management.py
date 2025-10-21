@@ -77,7 +77,7 @@ def show_port_manager():
             except Exception as e:
                 st.error(f"Failed to save cash assets: {e}")
 
-        def generate_portfolio_pdf(df, port_summary, comparison_df, sector_df):
+        def generate_portfolio_pdf(df, port_summary, comparison_df, sector_totals):
             date = datetime.now().date()
             buffer = BytesIO()
             doc = SimpleDocTemplate(buffer)
@@ -124,6 +124,22 @@ def show_port_manager():
                 image_buffer.seek(0)
                 img = Image(image_buffer, width=5 * inch, height=3 * inch)
                 story.append(img)
+
+            if sector_totals is not None and not sector_df.empty:
+                labels = sector_df['Sector']
+                sizes = sector_df['Value']
+                plt.figure()
+                plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90)
+                plt.axis('equal')
+                plt.title('Portfolio Allocation by Sector')
+                plt.legend()
+                pie_buffer = BytesIO()
+                plt.savefig(pie_buffer, format='png')
+                plt.close()
+                pie_buffer.seek(0)
+                pie = Image(pie_buffer, width=5 * inch, height=3* inch)
+                story.append(pie)
+
 
             doc.build(story)
             buffer.seek(0)
@@ -424,10 +440,10 @@ def show_port_manager():
                         fig2 = px.pie(sector_df, values='Value', names='Sector', color='Sector', color_discrete_sequence=px.colors.qualitative.Plotly, title='Sector Allocation')
                         st.plotly_chart(fig2)
 
-                if 'comparison_df' in locals() and 'fig2' in locals():
+                if 'comparison_df' in locals() and 'sector_df' in locals():
                     st.download_button(
                         label="Download Portfolio PDF",
-                        data=generate_portfolio_pdf(df, port_summary, comparison_df, fig2),
+                        data=generate_portfolio_pdf(df, port_summary, comparison_df, sector_df),
                         file_name="portfolio_summary.pdf",
                         mime="application/pdf"
                     )
