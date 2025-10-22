@@ -87,19 +87,18 @@ def main_app():
 
 
 def auth_screen():
-    st.image("img.png", width=120)
     st.title('📈Key Investing')
     option = st.selectbox('Choose an Action:', ['Login', 'Sign Up'])
     email = st.text_input('Email')
     password = st.text_input('Password', type='password')
 
-    if option == 'Sign Up' and st.button('📝Register'):
+    if option == 'Sign Up' and st.button('📝 Register'):
         user = sign_up(email, password)
         if user and user.user:
             st.success('Registration successful. You may log in.')
 
 
-    if option == 'Login' and st.button('🔑Login'):
+    if option == 'Login' and st.button('🔑 Login'):
         user = sign_in(email, password)
         if user and user.user:
             st.session_state.user_email = user.user.email
