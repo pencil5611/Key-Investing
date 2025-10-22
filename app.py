@@ -3,6 +3,10 @@ from supabase import create_client, Client
 from features.portfolio_management import show_port_manager
 from features.stock_research import show_research_watchlist_page
 from features.optimize import portfolio_page
+st.set_page_config(
+    page_title='Key Investing',
+    page_icon="favicon.png"
+)
 supabase_url = st.secrets["SUPABASE_URL"]
 supabase_key = st.secrets["SUPABASE_KEY"]
 
