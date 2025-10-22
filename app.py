@@ -87,7 +87,7 @@ def main_app():
 
 
 def auth_screen():
-    st.title('Key Investing Login/Sign Up Page')
+    st.title('Login')
     option = st.selectbox('Choose an Action:', ['Login', 'Sign Up'])
     email = st.text_input('Email')
     password = st.text_input('Password', type='password')
