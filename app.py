@@ -5,7 +5,7 @@ from features.stock_research import show_research_watchlist_page
 from features.optimize import portfolio_page
 st.set_page_config(
     page_title='Key Investing',
-    page_icon="favicon.png"
+    page_icon="img.png"
 )
 supabase_url = st.secrets["SUPABASE_URL"]
 supabase_key = st.secrets["SUPABASE_KEY"]
